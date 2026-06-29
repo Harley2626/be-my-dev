@@ -1,0 +1,197 @@
+@import "tailwindcss";
+
+@theme {
+  /* Craftsman's palette — olive, sage, moss, cream, paper, stone, charcoal */
+  --color-background: #f5f2eb;
+  --color-paper: #f5f2eb;
+  --color-surface: #fbfaf7;
+  --color-surface-warm: #efebe3;
+  --color-foreground: #3a4234;
+  --color-charcoal: #3d3f38;
+  --color-muted: #6d7564;
+  --color-stone: #9c9588;
+  --color-border: #ddd9ce;
+  --color-accent: #5c6849;
+  --color-accent-bright: #7a8768;
+  --color-accent-light: #e6e9df;
+  --color-accent-soft: #d0d8c4;
+  --color-sage: #8a9478;
+  --color-moss: #6b7a5c;
+  --color-forest: #2f3629;
+  --color-cream: #f8f6f1;
+  --color-lime: #b8c4a4;
+  --color-mint: #c5d4bc;
+  --color-warm: #ebe6dc;
+  --font-sans: var(--font-dm-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-fraunces), Georgia, serif;
+  --font-flair: var(--font-caveat), cursive;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    background-image:
+      radial-gradient(ellipse 100% 55% at 50% -8%, rgba(208, 216, 196, 0.32), transparent 52%),
+      radial-gradient(ellipse 45% 35% at 100% 85%, rgba(230, 233, 223, 0.4), transparent 48%),
+      linear-gradient(180deg, #f5f2eb 0%, #f0ece4 100%);
+  }
+
+  ::selection {
+    @apply bg-accent-light text-forest;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .section-padding {
+    @apply px-6 py-28 md:px-8 md:py-36 lg:px-12;
+  }
+
+  .container-wide {
+    @apply mx-auto max-w-6xl;
+  }
+
+  .font-display {
+    font-family: var(--font-display);
+  }
+
+  .font-flair {
+    font-family: var(--font-flair);
+  }
+
+  .font-hand {
+    font-family: var(--font-flair);
+  }
+
+  /* Paper sitting on a desk */
+  .warm-card {
+    @apply rounded-2xl border border-accent-soft/50 bg-gradient-to-br from-surface via-surface to-accent-light/25 shadow-[0_1px_0_rgba(255,255,255,0.7)_inset,0_3px_16px_rgba(58,66,52,0.05)];
+  }
+
+  .brand-card {
+    @apply relative overflow-visible;
+    border-radius: 1.08rem 1.22rem 1.12rem 1.18rem;
+  }
+
+  .brand-card-dot {
+    @apply pointer-events-none absolute right-3.5 top-3.5;
+  }
+
+  .paper-card {
+    @apply relative overflow-visible rounded-2xl border border-accent-soft/50 bg-gradient-to-br from-surface via-surface to-accent-light/25 shadow-[0_1px_0_rgba(255,255,255,0.7)_inset,0_3px_16px_rgba(58,66,52,0.05)];
+    border-radius: 1.08rem 1.22rem 1.12rem 1.18rem;
+  }
+
+  .brand-btn {
+    @apply rounded-xl;
+  }
+
+  .brand-btn::before {
+    content: "";
+    position: absolute;
+    inset: 1px 8px auto 8px;
+    height: 1px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.16);
+    pointer-events: none;
+  }
+
+  .brand-btn-secondary::before {
+    background: rgba(255, 255, 255, 0.4);
+  }
+
+  .brand-badge {
+    border-radius: 0.55rem 0.65rem 0.6rem 0.58rem;
+  }
+
+  .warm-card-hover {
+    transition:
+      transform 0.65s cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 0.65s ease,
+      border-color 0.65s ease;
+  }
+
+  .warm-card-hover:hover {
+    transform: rotate(-0.45deg) translateY(-4px);
+    border-color: rgba(184, 196, 164, 0.6);
+    box-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.75) inset,
+      0 14px 36px rgba(58, 66, 52, 0.09);
+  }
+
+  /* Workshop zones — subtle shifts as you walk through */
+  .workshop-zone-bench {
+    background-image: linear-gradient(180deg, rgba(230, 233, 223, 0.35) 0%, transparent 100%);
+  }
+
+  .workshop-zone-board {
+    background-image: radial-gradient(ellipse 80% 50% at 50% 0%, rgba(208, 216, 196, 0.2), transparent 70%);
+  }
+
+  .workshop-zone-gallery {
+    background-image: linear-gradient(180deg, rgba(216, 224, 208, 0.25) 0%, transparent 100%);
+  }
+
+  .workshop-zone-tools {
+    background-image: radial-gradient(ellipse 60% 40% at 20% 100%, rgba(230, 233, 223, 0.35), transparent 70%);
+  }
+
+  .workshop-zone-notes {
+    background-image: linear-gradient(180deg, rgba(230, 233, 223, 0.3) 0%, transparent 100%);
+  }
+
+  .workshop-zone-door {
+    background-image: radial-gradient(ellipse 70% 60% at 50% 100%, rgba(208, 216, 196, 0.28), transparent 65%);
+  }
+
+  .soft-blob {
+    filter: blur(72px);
+    animation: float-soft 26s ease-in-out infinite;
+  }
+
+  @keyframes float-soft {
+    0%,
+    100% {
+      transform: translate(0, 0);
+    }
+    50% {
+      transform: translate(6px, -4px);
+    }
+  }
+
+  .paper-grain::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    pointer-events: none;
+    opacity: 0.032;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: 140px 140px;
+  }
+
+  .gallery-plaque {
+    @apply inline-block rounded-sm border border-accent-soft/60 bg-surface/90 px-3 py-1 font-flair text-sm text-accent shadow-sm;
+  }
+
+  .gallery-piece {
+    @apply transition-shadow duration-650 ease-out;
+  }
+
+  .gallery-piece:hover {
+    box-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.75) inset,
+      0 20px 48px rgba(58, 66, 52, 0.1);
+  }
+
+  .nav-link {
+    @apply transition-colors duration-300 ease-out;
+  }
+}
