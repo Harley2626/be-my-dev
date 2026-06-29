@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import { DM_Sans, Fraunces, Caveat } from "next/font/google";
+import { MicrosoftClarity } from "@/components/analytics/MicrosoftClarity";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { SoftBackground } from "@/components/ui/SoftBackground";
@@ -31,6 +32,7 @@ export const metadata: Metadata = {
 };
 
 const GA_MEASUREMENT_ID = "G-B3YVEEW0ZB";
+const CLARITY_PROJECT_ID = "xesqlxlzvja";
 const isProduction = process.env.NODE_ENV === "production";
 
 export default function RootLayout({
@@ -46,6 +48,7 @@ export default function RootLayout({
         <main>{children}</main>
         <Footer />
         {isProduction && <GoogleAnalytics gaId={GA_MEASUREMENT_ID} />}
+        {isProduction && <MicrosoftClarity projectId={CLARITY_PROJECT_ID} />}
       </body>
     </html>
   );
