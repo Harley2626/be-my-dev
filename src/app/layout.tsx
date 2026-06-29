@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import { DM_Sans, Fraunces, Caveat } from "next/font/google";
-import { MicrosoftClarity } from "@/components/analytics/MicrosoftClarity";
+import MicrosoftClarity from "@/components/analytics/MicrosoftClarity";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { SoftBackground } from "@/components/ui/SoftBackground";
