@@ -25,13 +25,56 @@ const checkboxClass =
 
 export function Contact() {
   const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const [needsPhotographer, setNeedsPhotographer] = useState(false);
   const [needsBrandDesigner, setNeedsBrandDesigner] = useState(false);
   const [callbackMethod, setCallbackMethod] = useState<"call" | "whatsapp" | "">("");
 
-  function handleSubmit(e: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    setSubmitted(true);
+    setError(null);
+    setIsSubmitting(true);
+
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+
+    const payload = {
+      name: String(formData.get("name") ?? ""),
+      email: String(formData.get("email") ?? ""),
+      package: String(formData.get("package") ?? "") || "Not sure yet",
+      needsPhotographer,
+      needsBrandDesigner,
+      businessIdea: String(formData.get("message") ?? ""),
+      callbackNumber: String(formData.get("phone") ?? ""),
+      preferredContact: callbackMethod,
+      website: String(formData.get("website") ?? ""),
+    };
+
+    try {
+      const response = await fetch("/api/leads", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      const data = (await response.json()) as { error?: string };
+
+      if (!response.ok) {
+        setError(data.error ?? "Something went wrong. Please try again.");
+        return;
+      }
+
+      setSubmitted(true);
+      form.reset();
+      setNeedsPhotographer(false);
+      setNeedsBrandDesigner(false);
+      setCallbackMethod("");
+    } catch {
+      setError("Unable to send your enquiry. Please try again or WhatsApp me directly.");
+    } finally {
+      setIsSubmitting(false);
+    }
   }
 
   return (
@@ -108,12 +151,35 @@ export function Contact() {
                     transition={{ duration: 0.5 }}
                     className="flex h-full flex-col items-center justify-center py-12 text-center"
                   >
-                    <p className="font-hand text-3xl text-accent-bright">Got it — thank you.</p>
-                    <p className="mt-3 text-muted">I&apos;ll read your message properly and reply soon.</p>
-                    <p className="mt-2 font-hand text-lg text-accent-bright">Usually much sooner.</p>
+                    <p className="font-hand text-3xl text-accent-bright">Thanks! Your enquiry has been received.</p>
+                    <p className="mt-4 max-w-sm text-muted">
+                      I&apos;ve been notified immediately and will get back to you within one business
+                      day.
+                    </p>
+                    <p className="mt-4 max-w-sm text-muted">
+                      If your project is urgent you can also{" "}
+                      <a
+                        href={`https://wa.me/${phoneWhatsApp}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="font-medium text-accent underline-offset-2 hover:underline"
+                      >
+                        WhatsApp me directly
+                      </a>
+                      .
+                    </p>
                   </motion.div>
                 ) : (
                   <form onSubmit={handleSubmit} className="space-y-5">
+                    <input
+                      type="text"
+                      name="website"
+                      tabIndex={-1}
+                      autoComplete="off"
+                      className="pointer-events-none absolute left-[-9999px] h-0 w-0 opacity-0"
+                      aria-hidden
+                    />
+
                     <div className="grid gap-5 sm:grid-cols-2">
                       <Field label="Name" id="name" required placeholder="Your name" />
                       <Field label="Email" id="email" type="email" required placeholder="you@business.com" />
@@ -225,9 +291,14 @@ export function Contact() {
                       </fieldset>
                     </div>
 
-                    <Button type="submit" size="lg" className="w-full">
-                      Let&apos;s build yours
+                    <Button type="submit" size="lg" className="w-full" disabled={isSubmitting}>
+                      {isSubmitting ? "Sending..." : "Let's build yours"}
                     </Button>
+                    {error && (
+                      <p className="text-center text-sm text-forest/80" role="alert">
+                        {error}
+                      </p>
+                    )}
                     <p className="text-center font-hand text-base text-muted">
                       Goes straight to me. No spam, ever.
                     </p>
