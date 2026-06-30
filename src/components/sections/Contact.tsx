@@ -13,9 +13,9 @@ import { useState, type FormEvent } from "react";
 
 const packageOptions = ["Starter", "Business", "Shop"];
 
-const phoneDisplay = "083 963 0498";
-const phoneTel = "+27839630498";
-const phoneWhatsApp = "27839630498";
+const phoneDisplay = "083 963 0497";
+const phoneTel = "+27839630497";
+const phoneWhatsApp = "27839630497";
 
 const inputClass =
   "w-full rounded-xl border border-accent-soft bg-surface px-4 py-3.5 text-sm transition-all duration-500 focus:border-accent-bright focus:outline-none focus:ring-2 focus:ring-accent-light";
